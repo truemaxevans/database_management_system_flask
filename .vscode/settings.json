@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "dvdrent",
+            "database": "${workspaceFolder:video_dvd_rent_api}/data/dvdrent.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
