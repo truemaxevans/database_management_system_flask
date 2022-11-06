@@ -39,19 +39,15 @@ def update_dvd():
 # def download_all_csv():
 #     return render_template('download_all_csv.html');
 
-# SQL execution in functions
+# run SQL execution in functions and return results
 @app.route('/get_dvd_entries', methods=['GET'])
 def get_all_dvd():
-    if request.method == 'GET':
-        try:
-            conn = sqlite3.connect('dvdrent.db')
-            conn.row_factory = sqlite3.Row
-            cur = conn.cursor()
-            cur.execute("SELECT * FROM dvd")
-            rows = cur.fetchall()
-            return render_template('dvd.html', rows=rows)
-        except Exception as e:
-            return Exception(e)
+    conn = sqlite3.connect('dvdrent.db')
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    cur.execute("SELECT app_dvd.title, app_author.full_name, app_genre.name, app_main_actor.name, app_main_actor.surname, app_main_actor.age, app_adult_restriction.adult_movie FROM app_dvd JOIN app_author ON app_dvd.author_id = app_author.id JOIN app_genre ON app_dvd.genre_id = app_genre.id JOIN app_main_actor ON app_dvd.main_actor_id = app_main_actor.id JOIN app_adult_restriction ON app_dvd.adult_restriction_id = app_adult_restriction.id")
+    rows = cur.fetchall()
+    return render_template('get_dvd.html', rows=rows)
     
 
 @app.route('/add_entry', methods=['POST'])
@@ -64,6 +60,7 @@ def add_entry():
             year = request.form['year']
             genre = request.form['genre']
             main_actor = request.form['main_actors']
+            adult_restriction = request.form['adult_restriction']
 
             with sqlite3.connect("dvdrent.db") as connection:
                 cur = connection.cursor()
@@ -72,8 +69,8 @@ def add_entry():
                 log.info(f'{request.method} request processed')
             return render_template('add_dvd.html')
         except:
-            connection.rollback()
-            log.error('Error while adding record')
+            log.info(f'{request.method} request failed')
+            return render_template('add_dvd.html')
     else:
         return response('Method not allowedd', status=405)
 
@@ -86,9 +83,10 @@ def delete_dvd_entry():
             title = request.form['title']
             with sqlite3.connect("dvdrent.db") as connection:
                 cur = connection.cursor()
-                cur.execute("DELETE FROM dvd_dics WHERE title = ?", (title,))
+                cur.execute("DELETE FROM app_dvd WHERE title = ?", (title,))
                 connection.commit()
                 log.info(f'{request.method} request processed')
+                return render_template('sucess.html')
         except:
             connection.rollback()
             log.error('Error while deleting record')
@@ -107,6 +105,7 @@ def update_dvd_entry():
             year = request.form['year']
             genre = request.form['genre']
             main_actor = request.form['main_actors']
+            adult_restriction = request.form['adult_restriction']
 
             with sqlite3.connect("dvdrent.db") as connection:
                 cur = connection.cursor()
