@@ -1,77 +1,68 @@
 <!DOCTYPE html>
- <html>
- <head>
-   <title>DVD info</title>
+<html>
+  <head>
+    <title>DVD info</title>
+    <style>
+      body {
+        background-image: url('static/database.jpg');
+        background-size: cover;
+        text-align: center;
+        font-weight: bold;
+        font-size: larger;
+      }
 
- <style>
+      a:link,
+      a:visited {
+        background-color: #f44336;
+        color: white;
+        padding: 14px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+      }
 
-  body{
-  background-image: url('static/database.jpg');
-   background-size: cover;
-   text-align: center;
-   font-weight: bold;
-   font-size: larger;
-  }
+      a:hover,
+      a:active {
+        background-color: blue;
+      }
 
-  a:link, a:visited {
-  background-color: #f44336;
-  color: white;
-  padding: 14px 25px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  }
+      h1 {
+        color: white;
+        text-align: center;
+      }
 
-  a:hover, a:active {
-  background-color: blue;
-  }
-
-  h1 {
-    color: white;
-    text-align: center;
-  }
-
-  td {
-    font-family: verdana;
-    font-size: 20px;
-    color: white;
-  }
-
- </style>
- </head>
-
- <body>
-
-<form action = "/get_dvd_entries" method="get">
-
- <h1> DVD  Details</h1><br>
-
- <table align="center" cellspacing = "2" cellpadding = "13" border = "10" width="700" >
-
- <thead>
-  <td>Title</td>
-  <td>Year</td>
-  <td>Author</td>
-  <td>Genre</td>
-  <td>Surname</td>
-  <td>Age</td>
-  <td>18+</td>
-
- </thead>
-
- {% for row in rows %}
- <tr>
- <td>{{row["title"]}}</td>
- <td>{{row["year"]}}</td>
- <td>{{row["full_name"]}}</td>
- <td>{{row["name"]}}</td>
- <td>{{row["surname"]}}</td>
- <td>{{row["age"]}}</td>
- <td>{{row["adult_movie"]}}</td>
- </tr>
- {% endfor %}   
- </table>
- <br><br>
- <a href="/">Go back to main menu</a>
- </body>
- </html> 
+      td {
+        font-family: verdana;
+        font-size: 20px;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="/get_dvd_entries" method="get">
+      <h1> DVD Details</h1>
+      <br>
+      <table align="center" cellspacing="2" cellpadding="13" border="10" width="700">
+        <thead>
+          <td>Title</td>
+          <td>Year</td>
+          <td>Author</td>
+          <td>Genre</td>
+          <td>Surname</td>
+          <td>Age</td>
+          <td>18+</td>
+        </thead> {% for row in rows %} <tr>
+          <td>{{row["title"]}}</td>
+          <td>{{row["year"]}}</td>
+          <td>{{row["full_name"]}}</td>
+          <td>{{row["name"]}}</td>
+          <td>{{row["surname"]}}</td>
+          <td>{{row["age"]}}</td>
+          <td>{{row["adult_movie"]}}</td>
+        </tr> {% endfor %}
+      </table>
+      <br>
+      <br>
+      <a href="/">Go back to main menu</a>
+  </body>
+</html>
