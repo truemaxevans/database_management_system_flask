@@ -4,11 +4,13 @@
  <title>Add DVD</title>
 
   <style>
-   body{
-    background-image: url('/static/2.jpg');
-    background-size: cover;
-    text-align: center;
-   }
+    body{
+      background-image: url('static/database.jpg');
+       background-size: cover;
+       text-align: center;
+       font-weight: bold;
+       font-size: larger;
+      }
 
    input[type=text] {
     width: 100%;
@@ -27,7 +29,7 @@
    input[type=submit] {
 
     width: 100%;
-    background-color: #4CAF50;
+    background-color: #f44336;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -37,7 +39,7 @@
    }
 
    input[type=submit]:hover {
-    background-color: #45a049;
+    background-color: #f44336;
    }
    
    a:link, a:visited {
@@ -50,8 +52,20 @@
     }
   
     a:hover, a:active {
-    background-color: red;
+    background-color: blue;
     }
+  
+    h1 {
+      color: white;
+      text-align: center;
+    }
+  
+    td {
+      font-family: verdana;
+      font-size: 20px;
+      color: white;
+    }
+
   </style>
  </head>
  <body>
@@ -61,10 +75,16 @@
  <table align="center" cellspacing = "2" cellpadding = "13" border = "10" width="700">
 
   <tr><td>Title</td><td><input type="text" name="title" ></td></tr>
-  <tr><td>Author</td><td><input type="email" name="author"></td></tr>
-  <tr><td>Year</td><td><input type="date" name="year"></td></tr>
-  <tr><td>Genre</td><td><input type="text" name="genre"></td></tr>
-  <tr><td>Actors</td><td><input type="text" name="main_actors"></td></tr>
+  <tr><td>Year</td><td><input type="number" name="year" placeholder="YYYY" min="1900" max="2022">
+    <script>
+       document.querySelector("input[type=number]")
+       .oninput = e => console.log(new Date(e.target.valueAsNumber, 0, 1))
+    </script>
+  </td></tr>
+  <tr><td>Author</td><td><input type="number" name="author_id" placeholder="int" min="1" max="4"></td></tr>
+  <tr><td>Genre</td><td><input type="number" name="genre_id" placeholder="int" min="1" max="4"></td></tr>
+  <tr><td>Main Actor</td><td><input type="number" name="main_actor_id" placeholder="int" min="1" max="4"></td></tr>
+  <tr><td>18+</td><td><input type="number" name="adult_restriction_id" placeholder="int" min="1" max="2"></td></tr>
 
   <tr><td></td><td><input type="submit" value="Submit"></td></tr>
 

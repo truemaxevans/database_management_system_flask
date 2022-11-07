@@ -20,7 +20,7 @@ connection.execute(
 );
 
 connection.execute(
-    "insert into app_adult_restriction (adult_movie) values (1), (2)"
+    "insert into app_adult_restriction (adult_movie) values (0), (1)"
 );
 
 connection.execute(

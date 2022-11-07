@@ -4,13 +4,13 @@
    <title>DVD info</title>
 
  <style>
+
   body{
-   background-image: url('/static/4.jpg');
+  background-image: url('static/database.jpg');
    background-size: cover;
    text-align: center;
    font-weight: bold;
    font-size: larger;
-
   }
 
   a:link, a:visited {
@@ -23,30 +23,46 @@
   }
 
   a:hover, a:active {
-  background-color: red;
+  background-color: blue;
+  }
+
+  h1 {
+    color: white;
+    text-align: center;
+  }
+
+  td {
+    font-family: verdana;
+    font-size: 20px;
+    color: white;
   }
 
  </style>
-
  </head>
+
  <body>
+
 <form action = "/get_dvd_entries" method="get">
- <h1 style="color: green">DVD  Details</h1><br>
+
+ <h1> DVD  Details</h1><br>
 
  <table align="center" cellspacing = "2" cellpadding = "13" border = "10" width="700" >
 
  <thead>
- <td>Title</td>
- <td>Author</td>
- <td>Genre</td>
- <td>Surname</td>
+  <td>Title</td>
+  <td>Year</td>
+  <td>Author</td>
+  <td>Genre</td>
+  <td>Surname</td>
   <td>Age</td>
   <td>18+</td>
 
  </thead>
+
  {% for row in rows %}
  <tr>
  <td>{{row["title"]}}</td>
+ <td>{{row["year"]}}</td>
  <td>{{row["full_name"]}}</td>
  <td>{{row["name"]}}</td>
  <td>{{row["surname"]}}</td>

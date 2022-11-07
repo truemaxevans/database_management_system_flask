@@ -25,7 +25,7 @@ connection.execute(
 );
 
 connection.execute(
-    "create table app_dvd (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL, title TEXT(25) NOT NULL, year INTEGER(4) NOT NULL, author_id INTEGER REFERENCES app_author (author_id), genre_id INTEGER REFERENCES app_genre (genre_id), main_actor_id INTEGER REFERENCES app_main_actor (main_actor_id), adult_restriction_id INTEGER REFERENCES app_adult_restriction (adult_restriction_id))"
+    "create table app_dvd (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, title TEXT(25) NOT NULL, year INTEGER(4) NOT NULL, author_id INTEGER REFERENCES app_author (author_id), genre_id INTEGER REFERENCES app_genre (genre_id), main_actor_id INTEGER REFERENCES app_main_actor (main_actor_id), adult_restriction_id INTEGER REFERENCES app_adult_restriction (adult_restriction_id))"
 );
 
 print("Tables created successfully")

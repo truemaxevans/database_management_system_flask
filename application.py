@@ -17,11 +17,9 @@ log = getLogger(__name__)
 def index():
     return render_template('index.html');
 
-
 @app.route('/add_dvd')
 def add_dvd():
     return render_template('add_dvd.html');
-
 
 @app.route('/get_dvd')
 def get_dvd():
@@ -40,83 +38,83 @@ def update_dvd():
 #     return render_template('download_all_csv.html');
 
 # run SQL execution in functions and return results
+
+
 @app.route('/get_dvd_entries', methods=['GET'])
 def get_all_dvd():
     conn = sqlite3.connect('dvdrent.db')
     conn.row_factory = sqlite3.Row
     cur = conn.cursor()
-    cur.execute("SELECT app_dvd.title, app_author.full_name, app_genre.name, app_main_actor.name, app_main_actor.surname, app_main_actor.age, app_adult_restriction.adult_movie FROM app_dvd JOIN app_author ON app_dvd.author_id = app_author.id JOIN app_genre ON app_dvd.genre_id = app_genre.id JOIN app_main_actor ON app_dvd.main_actor_id = app_main_actor.id JOIN app_adult_restriction ON app_dvd.adult_restriction_id = app_adult_restriction.id")
+    cur.execute("SELECT app_dvd.title, app_dvd.year, app_author.full_name, app_genre.name, app_main_actor.name, app_main_actor.surname, app_main_actor.age, app_adult_restriction.adult_movie FROM app_dvd JOIN app_author ON app_dvd.author_id = app_author.id JOIN app_genre ON app_dvd.genre_id = app_genre.id JOIN app_main_actor ON app_dvd.main_actor_id = app_main_actor.id JOIN app_adult_restriction ON app_dvd.adult_restriction_id = app_adult_restriction.id")
     rows = cur.fetchall()
+    print("Get all dvd entries successfully")
     return render_template('get_dvd.html', rows=rows)
     
 
 @app.route('/add_entry', methods=['POST'])
 def add_entry():
     if request.method == 'POST':
-        log.info(f'{request.method} request received')
         try:
             title = request.form['title']
-            author = request.form['author']
             year = request.form['year']
-            genre = request.form['genre']
-            main_actor = request.form['main_actors']
-            adult_restriction = request.form['adult_restriction']
+            author = request.form['author_id']
+            genre = request.form['genre_id']
+            main_actor = request.form['main_actor_id']
+            adult_restriction = request.form['adult_restriction_id']
 
             with sqlite3.connect("dvdrent.db") as connection:
                 cur = connection.cursor()
-                cur.execute("INSERT INTO dvd_discs (title, author, year, genre, main_actor) VALUES (?,?,?,?,?)", (title, author, year, genre, main_actor))
+                cur.execute("INSERT INTO app_dvd (title, year, author_id, genre_id, main_actor_id, adult_restriction_id) VALUES (?, ?, ?, ?, ?, ?)", (title, year, author, genre, main_actor, adult_restriction))
                 connection.commit()
-                log.info(f'{request.method} request processed')
-            return render_template('add_dvd.html')
-        except:
-            log.info(f'{request.method} request failed')
-            return render_template('add_dvd.html')
-    else:
-        return response('Method not allowedd', status=405)
+                print("Data inserted successfully")
+                return render_template('added_sucess.html')
+
+        except Exception as e:
+            print(f'Error: {e}')
+        
+        finally:
+            connection.close()
 
 
 @app.route('/delete_dvd_entry', methods=['POST'])
 def delete_dvd_entry():
     if request.method == 'POST':
-        log.info(f'{request.method} request received')
+        print(f'{request.method} request received')
         try:
             title = request.form['title']
             with sqlite3.connect("dvdrent.db") as connection:
                 cur = connection.cursor()
                 cur.execute("DELETE FROM app_dvd WHERE title = ?", (title,))
                 connection.commit()
-                log.info(f'{request.method} request processed')
-                return render_template('sucess.html')
+                print(f'{request.method} request processed')
+                return render_template('delete_sucess.html')
         except:
             connection.rollback()
-            log.error('Error while deleting record')
-        
+            print('Error while deleting record')
     else:
         return response('Method not allowed', status=405)
 
 
-@app.route('/update_dvd_entry', methods=['PATCH'])
+@app.route('/update_dvd_entry', methods=['POST'])
 def update_dvd_entry():
-    if request.method == 'PATCH':
-        log.info(f'{request.method} request received')
+    if request.method == 'POST':
         try:
             title = request.form['title']
-            author = request.form['author']
             year = request.form['year']
-            genre = request.form['genre']
-            main_actor = request.form['main_actors']
-            adult_restriction = request.form['adult_restriction']
-
+            author = request.form['author_id']
+            genre = request.form['genre_id']
+            main_actor = request.form['main_actor_id']
+            adult_restriction = request.form['adult_restriction_id']
             with sqlite3.connect("dvdrent.db") as connection:
                 cur = connection.cursor()
-                cur.execute("UPDATE dvd_dics SET author = ?, year = ?, genre = ?, main_actor = ? WHERE title = ?", (author, year, genre, main_actor, title))
+                # update record by title
+                cur.execute("UPDATE app_dvd SET year = ?, author_id = ?, genre_id = ?, main_actor_id = ?, adult_restriction_id = ? WHERE title = ?", (year, author, genre, main_actor, adult_restriction, title))
                 connection.commit()
-                log.info(f'{request.method} request processed')
-        except:
-            connection.rollback()
-            log.error('Error while updating record')
-    else:
-        return response('Method not allowed', status=405)
+                return render_template('index.html')
+        except Exception as e:
+            print(f'Error occured {e}')
+        finally:
+            connection.close()
 
 # @app.route('/download_all_csv', methods=['GET'])
 # def download_all_csv():
