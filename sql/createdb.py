@@ -1,7 +1,6 @@
 import sqlite3
 
 connection = sqlite3.connect("dvdrent.db")
-print("Database opened successfully")
 cursor = connection.cursor()
 
 # delete
@@ -31,5 +30,3 @@ connection.execute(
 print("Tables created successfully")
 
 connection.close()
-
-print("Database closed successfully")

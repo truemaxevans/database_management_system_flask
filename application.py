@@ -1,6 +1,7 @@
 # importing necessary libraries
 import sqlite3
 import pandas as pd
+import datetime
 
 from logging import getLogger
 from urllib import response
@@ -139,8 +140,9 @@ def download_data_in_csv():
         headers_upper = [i.upper() for i in headers]
         df = pd.DataFrame(rows, columns=headers_upper)
         print("Get all dvd entries successfully")
-        df.to_csv("dvd_report.csv", index=False)
-        return send_file("dvd_report.csv", as_attachment=True)
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+        df.to_csv(f"dvd_report_{current_date}.csv", index=False)
+        return send_file(f"dvd_report_{current_date}.csv", as_attachment=True)
     except Exception as e:
         print(f"Error occured {e}")
 

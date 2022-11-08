@@ -1,8 +1,6 @@
 import sqlite3
 
 connection = sqlite3.connect("dvdrent.db")
-print("Database opened successfully")
-
 cursor = connection.cursor()
 
 # get data from tables by using JOIN statement and print it out in a nice way
@@ -19,5 +17,3 @@ for row in rows:
 print("Data retrieved successfully")
 
 connection.close()
-
-print("Database closed successfully")

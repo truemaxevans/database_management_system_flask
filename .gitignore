@@ -1,0 +1,9 @@
+# used to ignore files for git
+
+.vscode/*
+.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+__pycache__
+.history

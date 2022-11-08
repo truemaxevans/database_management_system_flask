@@ -1,7 +1,6 @@
 import sqlite3
 
 connection = sqlite3.connect("dvdrent.db")
-print("Database opened successfully")
 
 cursor = connection.cursor()
 
@@ -30,5 +29,3 @@ connection.commit()
 print("Data inserted successfully")
 
 connection.close()
-
-print("Database closed successfully")

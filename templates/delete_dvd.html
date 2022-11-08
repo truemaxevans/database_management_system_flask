@@ -30,12 +30,13 @@
       }
 
       input[type=submit]:hover {
-        background-color: #45a049;
+        background-color: #0269A4;
+        color: white;
       }
 
       a:link,
       a:visited {
-        background-color: #f44336;
+        background-color: #0269A4;
         color: white;
         padding: 14px 25px;
         text-align: center;
@@ -45,12 +46,18 @@
 
       a:hover,
       a:active {
-        background-color: red;
+        background-color: #FE7C00;
       }
+
+      h1 {
+        color: white;
+        text-align: center;
+      }
+
     </style>
   </head>
   <body>
-    <h1 style="color: #4CAF50; font-size: 50px">Remove entry in database</h1>
+    <h1>Remove entry in database</h1>
     <form action="/delete_dvd_entry" method="post"> Title <input type="text" name="title" required>
       <input type="submit" value="Submit">
     </form>
