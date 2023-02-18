@@ -49,7 +49,7 @@ def get_all_dvd():
         conn.row_factory = sqlite3.Row
         cur = conn.cursor()
         cur.execute(
-            "SELECT dvd.title, dvd.year, author.full_name, genre.name, main_actor.name, main_actor.surname, main_actor.age, adult_restriction.is_adult FROM dvd JOIN author ON dvd.author_id = author.id JOIN genre ON dvd.genre_id = genre.id JOIN main_actor ON dvd.main_actor_id = main_actor.id JOIN adult_restriction ON dvd.adult_restriction_id = adult_restriction.id"
+            "SELECT dvd.title, dvd.year, author.full_name, genre.name, main_actor.surname, adult_restriction.is_adult FROM dvd JOIN author ON dvd.author_id = author.id JOIN genre ON dvd.genre_id = genre.id JOIN main_actor ON dvd.main_actor_id = main_actor.id JOIN adult_restriction ON dvd.adult_restriction_id = adult_restriction.id"
         )
         rows = cur.fetchall()
         app.logger.info("Get all dvd entries successfully")
@@ -64,16 +64,58 @@ def add_entry():
     try:
         title = request.form["title"]
         year = request.form["year"]
-        author = request.form["author_id"]
-        genre = request.form["genre_id"]
-        main_actor = request.form["main_actor_id"]
-        adult_restriction = request.form["adult_restriction_id"]
+        author_name = request.form["author_name"]
+        genre_name = request.form["genre_name"]
+        main_actor = request.form["main_actor_surname"]
+        is_adult = request.form["is_adult"]
 
         with sqlite3.connect("dvdrent.db") as connection:
             cur = connection.cursor()
+
+            # check if author exists
+            cur.execute("SELECT id FROM author WHERE full_name=?", (author_name,))
+            author_id = cur.fetchone()
+            if not author_id:
+                # insert new author
+                cur.execute("INSERT INTO author (full_name) VALUES (?)", (author_name,))
+                author_id = cur.lastrowid
+            else:
+                author_id = author_id[0]
+
+            # check if genre exists
+            cur.execute("SELECT id FROM genre WHERE name=?", (genre_name,))
+            genre_id = cur.fetchone()
+            if not genre_id:
+                # insert new genre
+                cur.execute("INSERT INTO genre (name) VALUES (?)", (genre_name,))
+                genre_id = cur.lastrowid
+            else:
+                genre_id = genre_id[0]
+
+            # check if main actor exists
+            cur.execute("SELECT id FROM main_actor WHERE surname=?", (main_actor,))
+            main_actor_id = cur.fetchone()
+            if not main_actor_id:
+                # insert new main actor
+                cur.execute("INSERT INTO main_actor (surname) VALUES (?)", (main_actor,))
+                main_actor_id = cur.lastrowid
+            else:
+                main_actor_id = main_actor_id[0]
+
+            # check if adult restriction exists
+            cur.execute("SELECT id FROM adult_restriction WHERE is_adult=?", (is_adult,))
+            adult_restriction_id = cur.fetchone()
+            if not adult_restriction_id:
+                # insert new adult restriction
+                cur.execute("INSERT INTO adult_restriction (is_adult) VALUES (?)", (is_adult,))
+                adult_restriction_id = cur.lastrowid
+            else:
+                adult_restriction_id = adult_restriction_id[0]
+
+            # insert new dvd entry
             cur.execute(
                 "INSERT INTO dvd (title, year, author_id, genre_id, main_actor_id, adult_restriction_id) VALUES (?, ?, ?, ?, ?, ?)",
-                (title, year, author, genre, main_actor, adult_restriction),
+                (title, year, author_id, genre_id, main_actor_id, adult_restriction_id),
             )
             connection.commit()
             app.logger.info("New dvd entry added successfully")

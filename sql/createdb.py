@@ -16,9 +16,9 @@ with sqlite3.connect("dvdrent.db") as connection:
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS main_actor (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
+        name TEXT,
         surname TEXT NOT NULL,
-        age INTEGER NOT NULL
+        age INTEGER
     )''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS adult_restriction (

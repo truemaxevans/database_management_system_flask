@@ -49,7 +49,6 @@
           <td>Author</td>
           <td>Genre</td>
           <td>Surname</td>
-          <td>Age</td>
           <td>18+</td>
         </thead> {% for row in rows %} <tr>
           <td>{{row["title"]}}</td>
@@ -57,7 +56,6 @@
           <td>{{row["full_name"]}}</td>
           <td>{{row["name"]}}</td>
           <td>{{row["surname"]}}</td>
-          <td>{{row["age"]}}</td>
           <td>{{row["is_adult"]}}</td>
         </tr> {% endfor %}
       </table>
