@@ -7,6 +7,6 @@ STACK: Flask, Python, SQLite3, Pandas, HTML, CSS, SQL
 To run the project:
 
 1. Clone the repository
-2. Install the requirements
-3. To run the app, run manage.py file (it will run three files: createdb.py, insert_data.py, get_data.py)
+2. Install the requirements.txt file (pip install -r requirements.txt)
+3. To run the app, run manage.py file (it will run three files: createdb.py, insert_data.py, get_data.py) and run the app (python manage.py runserver)
 P.S if you would like to follow step by step, run createdb.py, insert_data.py, get_data.py files separately

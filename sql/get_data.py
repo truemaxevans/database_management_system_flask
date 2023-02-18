@@ -5,7 +5,7 @@ cursor = connection.cursor()
 
 # get data from tables by using JOIN statement and print it out in a nice way
 cursor.execute(
-    "SELECT app_dvd.title, app_dvd.year, app_author.full_name, app_genre.name, app_main_actor.name, app_main_actor.surname, app_main_actor.age, app_adult_restriction.adult_movie FROM app_dvd JOIN app_author ON app_dvd.author_id = app_author.id JOIN app_genre ON app_dvd.genre_id = app_genre.id JOIN app_main_actor ON app_dvd.main_actor_id = app_main_actor.id JOIN app_adult_restriction ON app_dvd.adult_restriction_id = app_adult_restriction.id"
+    "SELECT dvd.title, dvd.year, author.full_name, genre.name, main_actor.name, main_actor.surname, main_actor.age, adult_restriction.is_adult FROM dvd JOIN author ON dvd.author_id = author.id JOIN genre ON dvd.genre_id = genre.id JOIN main_actor ON dvd.main_actor_id = main_actor.id JOIN adult_restriction ON dvd.adult_restriction_id = adult_restriction.id"
 )
 
 rows = cursor.fetchall()
