@@ -1,11 +1,9 @@
 import sqlite3
 
-try:
-    connection = sqlite3.connect("dvdrent.db")
-
+with sqlite3.connect("dvdrent.db") as connection:
     cursor = connection.cursor()
 
-    # insert data into tables
+        # insert data into tables
 
     connection.execute(
         "INSERT INTO author (full_name) VALUES ('John Peck'), ('Vanessa Doe'), ('Sirius Black'), ('Drake Bell')"
@@ -28,6 +26,3 @@ try:
     connection.commit()
 
     print("Data inserted successfully")
-
-except sqlite3.Error as error:
-    print("Failed to insert data into tables", error)

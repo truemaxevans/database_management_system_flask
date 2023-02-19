@@ -6,19 +6,19 @@ with sqlite3.connect("dvdrent.db") as connection:
     # create tables
     cursor.execute('''CREATE TABLE IF NOT EXISTS author (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        full_name TEXT NOT NULL
+        full_name TEXT(45) NOT NULL
     )''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS genre (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL
+        name TEXT(15) NOT NULL
     )''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS main_actor (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        surname TEXT NOT NULL,
-        age INTEGER
+        name TEXT(15),
+        surname TEXT(15) NOT NULL,
+        age INTEGER(3)
     )''')
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS adult_restriction (
@@ -28,7 +28,7 @@ with sqlite3.connect("dvdrent.db") as connection:
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS dvd (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
+        title TEXT(50) NOT NULL,
         year INTEGER NOT NULL,
         author_id INTEGER REFERENCES author (id),
         genre_id INTEGER REFERENCES genre (id),
@@ -40,3 +40,4 @@ with sqlite3.connect("dvdrent.db") as connection:
     cursor.execute("PRAGMA foreign_keys = ON")
 
 print("Tables created successfully")
+# The connection is automatically closed when the context manager exits
